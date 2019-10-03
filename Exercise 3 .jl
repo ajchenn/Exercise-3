@@ -49,3 +49,35 @@ function extract_colors(filename)
     return (red, green, blue)
 end
 red, green, blue = extract_colors("el-capitan.png")
+
+
+
+println("Reset with git reset --mixed")
+
+#= Make a new 360x640x3 matrix; let’s call this image2.
+Set image2[:,:,1] to be the G channel from the original image,
+image2[:,:,2] to be the B channel from the original image, and
+image2[:,:,3] to be the R channel from the original image.
+Use imshow() to display the original image and image2 side by
+side (hint: use subplot(1,2,1) to first make a left-hand axis and
+work with that; and then subplot(1,2,2) to make a right-hand axis, and
+work with that). The commands figure(figsize=[x,y]), title("your text
+goes here"), and axis("off") can be used to initialize a figure specified
+by x and y (width and height in inches), add a title, and turn off the axis,
+respectively, for aesthetics. Commit and push both the code and image to your
+repo.=#
+
+image2 = zeros(Float32, 360, 640, 3) #Create a matrix of the same dimensions and fill them with zeros
+image2[:,:,1] = green
+image2[:,:,2] = blue
+image2[:,:,3] = red
+
+subplot(1,2,1)
+imshow(convert(Array{Float32,3}, img))
+title("Original image")
+axis("off")
+
+subplot(1,2,2)
+imshow(convert(Array{Float32,3}, image2))
+title("Inverse-colored image")
+axis("off")
