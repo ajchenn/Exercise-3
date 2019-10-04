@@ -172,3 +172,19 @@ subplot(1,2,1)
 imshow(convert(Array{Float32,3}, img))
 title("Original image")
 axis("off")
+
+
+#= Think about the purpose of version control (why do people do it in the
+first place?). How often should you commit to your repo, and why? After a new
+line of code? After a few? After you complete one subquestion? After the entire
+exercise set is done? What should your commit messages look like?
+
+I think the purpose of version control is to keep track of changes especially
+in files and programs that build off of each other. This is especially useful
+during the process of "finding a solution", as it allow you to revert back
+to working code in a previously saved version without having to trying to
+re-fix your code each time you come to a dead end. I personally think
+you should commit to the repo after each subquestion, as it'll often have
+functions and calls that can be used in future questions. Commit messages
+can be very brief and simply describe to what point that specific version
+is "correct" and working properly. =# 
