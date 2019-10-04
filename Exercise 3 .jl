@@ -81,3 +81,94 @@ subplot(1,2,2)
 imshow(convert(Array{Float32,3}, image2))
 title("Inverse-colored image")
 axis("off")
+
+#=
+A “circular” rotation of elements in a matrix moves the contents of the matrix
+such that elements that “fall off” one edge “circle back” to the opposite edge.
+Write a function that, for given an image, circularly moves only one channel,
+the red channel (remember, this is the first one) up some number of pixels, p,
+such that the top p rows now become the bottom p rows. Your function should
+take two arguments -- 1) your image and 2) the number of pixels you want to
+shift it by -- and return the shifted image. Display both the original image
+channel and the result of circularly moving the red channel up by 180 pixels.=#
+
+"""
+circle_rotate(image, p)
+
+Given an argument image and p number of pixels to move the image,
+circularly rotate rows upwards/downwards and return new channel values, and
+show the image.
+
+Args:
+image (arg): image file
+p (int): number of p pixels to shift rows
+
+Returns:
+new image with new red values
+"""
+function circle_rotate(image, p)
+    copyimage = copy(image)   #make a copy of the image to avoid messing original image
+    red = copyimage[:, :, 1]  #name the red channel "red"
+    for i = 1:p               #for each "increase" of pixel
+        for j = 1: size(red)[1]-1   #for each row
+            oldrow1 = red[1,:]      #store row 1 values in a separate vector
+            red[j,:] = red[j+1, :]  #make a row = to the one before it
+            red[end, :] = oldrow1   #make the last row equal to the values of the first row
+        end
+    end
+    copyimage[:,:,1] = red          #Set the red channel equal to our new red values
+    return(imshow(convert(Array{Float32,3}, copyimage)))
+end
+
+circle_rotate(img, 180)
+
+subplot(1,2,1)
+imshow(convert(Array{Float32,3}, img))
+title("Original image")
+axis("off")
+
+subplot(1,2,2)
+circle_rotate(img, 180)
+title("New image")
+axis("off")
+
+
+
+
+#### CHECK PREVIOUS ANSWER USING ANOTHER METHOD
+"""
+circle_rotate_short(image, p)
+
+Given an argument image and p number of pixels to move, circularly rotate rows
+upwards/downwards and returns new channel values.
+
+Args:
+image (arg): image file
+p (int): number of p pixels to shift rows
+
+Returns:
+newred (array): new values of red channels
+"""
+
+function circle_rotate_short(image, p)
+    copyimage = copy(image)
+    red = copyimage[:, :, 1]
+    newred = circshift(red, -p)
+    return newred
+end
+
+rotatedimage = zeros(Float32, 360, 640, 3)
+rotatedimage[:,:,1] = circle_rotate_short(img, 180)
+rotatedimage[:,:,2] = green
+rotatedimage[:,:,3]= blue
+rotatedimage
+
+subplot(1,2,2)
+imshow(convert(Array{Float32,3}, rotatedimage))
+title("Shifted image")
+axis("off")
+
+subplot(1,2,1)
+imshow(convert(Array{Float32,3}, img))
+title("Original image")
+axis("off")
